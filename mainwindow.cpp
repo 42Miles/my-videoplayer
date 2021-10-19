@@ -18,34 +18,28 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-
-
 void MainWindow::on_actionOpen_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this, "Open a File", "", "Video File(*.avi, *.mpg, *.mp4)");
     on_actionStop_triggered();
-    player->setMedia(QUrl::fromLocalFile(filename));
+    player->setSource(QUrl(filename));
 }
 
 
 void MainWindow::on_actionPlay_triggered()
 {
-    player->play();
-    ui->statusbar->showMessage("Paying");
+
 }
 
 
 void MainWindow::on_actionPause_triggered()
 {
-    player->pause();
-    ui->statusbar->showMessage("Paused...");
+
 }
 
 
 void MainWindow::on_actionStop_triggered()
 {
-    player->stop();
-    ui->statusbar->showMessage("Stopped");
+
 }
 

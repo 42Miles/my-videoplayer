@@ -3,10 +3,12 @@
 
 #include <QMainWindow>
 #include <QMediaPlayer>
+#include <QtMultimedia>
 #include <QVideoWidget>
 #include <QFileDialog>
 #include <QProgressBar>
 #include <QSlider>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +23,7 @@ public:
     ~MainWindow();
 
 private slots:
+
     void on_actionOpen_triggered();
 
     void on_actionPlay_triggered();
