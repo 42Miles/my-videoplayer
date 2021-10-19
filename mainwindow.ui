@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>731</width>
-    <height>532</height>
+    <width>727</width>
+    <height>534</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,13 +23,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>731</width>
+     <width>727</width>
      <height>24</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="mainToolBar">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -39,6 +39,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionOpen"/>
   </widget>
   <action name="actionOpen">
    <property name="icon">

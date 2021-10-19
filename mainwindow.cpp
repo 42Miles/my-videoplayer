@@ -19,3 +19,21 @@ void MainWindow::on_actionOpen_triggered()
 
 }
 
+
+void MainWindow::on_actionPlay_triggered()
+{
+
+}
+
+
+void MainWindow::on_actionPause_triggered()
+{
+
+}
+
+
+void MainWindow::on_actionStop_triggered()
+{
+
+}
+
