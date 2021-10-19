@@ -18,6 +18,12 @@ public:
 private slots:
     void on_actionOpen_triggered();
 
+    void on_actionPlay_triggered();
+
+    void on_actionPause_triggered();
+
+    void on_actionStop_triggered();
+
 private:
     Ui::MainWindow *ui;
 };
