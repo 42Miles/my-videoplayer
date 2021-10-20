@@ -13,19 +13,23 @@ MainWindow::MainWindow(QWidget *parent)
     this->setCentralWidget(vw);
 
     slider = new QSlider(this);
-    bar = new QProgressBar(this);
+    //bar = new QProgressBar(this);
+
+    //hslider = new QSlider(this);
+    //hslider->setOrientation(Qt::Horizontal);
 
     slider->setOrientation(Qt::Horizontal);
 
     ui->statusbar->addPermanentWidget(slider);
-    ui->statusbar->addPermanentWidget(bar);
+    //ui->statusbar->
+    //ui->statusbar->addPermanentWidget(bar);
 
     connect(player, &QMediaPlayer::durationChanged, slider, &QSlider::setMaximum);
     connect(player, &QMediaPlayer::positionChanged, slider, &QSlider::setValue);
     connect(slider, &QSlider::sliderMoved, player, &QMediaPlayer::setPosition);
 
-    connect(player, &QMediaPlayer::durationChanged, bar, &QProgressBar::setMaximum);
-    connect(player, &QMediaPlayer::positionChanged, bar, &QProgressBar::setValue);
+    //connect(player, &QMediaPlayer::durationChanged, bar, &QProgressBar::setMaximum);
+    //connect(player, &QMediaPlayer::positionChanged, bar, &QProgressBar::setValue);
 
 }
 
@@ -38,7 +42,7 @@ void MainWindow::on_actionOpen_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this, "Open a File", "", "Video File(*.avi, *.mpg, *.mp4)");
     on_actionStop_triggered();
-    player->setSource(QUrl::fromLocalFile(filename));
+    player->setMedia(QUrl::fromLocalFile(filename));
     on_actionPlay_triggered();
 }
 
@@ -62,4 +66,5 @@ void MainWindow::on_actionStop_triggered()
     player->stop();
     ui->statusbar->showMessage("Stopped");
 }
+
 

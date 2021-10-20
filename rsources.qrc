@@ -6,5 +6,6 @@
         <file>icons/noun_play_64196.png</file>
         <file>icons/noun_rewind_64202.png</file>
         <file>icons/noun_Stop_64197.png</file>
+        <file>icons/volume.png</file>
     </qresource>
 </RCC>
