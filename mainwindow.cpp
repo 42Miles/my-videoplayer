@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+
+
     player = new QMediaPlayer(this);
     vw = new QVideoWidget(this);
     player->setVideoOutput(vw);
@@ -15,14 +17,20 @@ MainWindow::MainWindow(QWidget *parent)
     slider = new QSlider(this);
     //bar = new QProgressBar(this);
 
-    //hslider = new QSlider(this);
-    //hslider->setOrientation(Qt::Horizontal);
+    volumeSlider = new QSlider(this);
+    volumeSlider->setOrientation(Qt::Horizontal);
+    volumeSlider->setRange(0, 100);
+    volumeSlider->setFixedWidth(100);
+    volumeSlider->setValue(50);
 
     slider->setOrientation(Qt::Horizontal);
 
     ui->statusbar->addPermanentWidget(slider); //adding a slider to the statusbar
-    //ui->statusbar->
+    ui->statusbar->addPermanentWidget(volumeSlider); //adding a volume to the statusbar
     //ui->statusbar->addPermanentWidget(bar);
+
+    connect(volumeSlider, SIGNAL(valueChanged(int)), this, SIGNAL(volumeChanged(int)));
+    connect(volumeSlider, SIGNAL(valueChanged(int)), player, SLOT(setVolume(int)));
 
     connect(player, &QMediaPlayer::durationChanged, slider, &QSlider::setMaximum); //Connecting player
     connect(player, &QMediaPlayer::positionChanged, slider, &QSlider::setValue);   //with
@@ -31,11 +39,19 @@ MainWindow::MainWindow(QWidget *parent)
     //connect(player, &QMediaPlayer::durationChanged, bar, &QProgressBar::setMaximum);
     //connect(player, &QMediaPlayer::positionChanged, bar, &QProgressBar::setValue);
 
+    QString filename = QFileDialog::getOpenFileName(this, "Open a File", "", "Video File(*.avi, *.mpg, *.mp4)"); //adding a filter for the source files
+    player->setMedia(QUrl::fromLocalFile(filename)); //setting media files
+    on_actionPlay_triggered();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void startOpen()
+{
+
 }
 
 void MainWindow::on_actionOpen_triggered()

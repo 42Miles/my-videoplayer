@@ -38,7 +38,8 @@ private:
     QVideoWidget *vw;
     QProgressBar *bar;
     QSlider *slider;
-    QSlider *hslider;
+    QSlider *volumeSlider;
+
 
 };
 #endif // MAINWINDOW_H
