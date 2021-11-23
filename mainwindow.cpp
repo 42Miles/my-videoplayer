@@ -19,13 +19,15 @@ MainWindow::MainWindow(QWidget *parent)
         actionVolume_triggered();
     });
 
+    player->setVolume(50);
+
     volumeSlider = new QSlider(this);
     volumeSlider->setOrientation(Qt::Horizontal);
     volumeSlider->setRange(0, 100);
     volumeSlider->setFixedWidth(100);
     volumeSlider->setValue(50);
     volumeSlider->setFocusPolicy(Qt::NoFocus);
-    volumeSlider->setPageStep(1);
+    volumeSlider->setPageStep(5);
 
     connect(volumeSlider, &QSlider::sliderMoved, [this]()
     {
@@ -62,7 +64,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainToolBar->addAction(actionFullScreen);
 
     connect(player, &QMediaPlayer::volumeChanged, volumeSlider, &QSlider::setValue);
-    connect(volumeSlider,&QSlider::valueChanged, player,&QMediaPlayer::setVolume);
+    //connect(volumeSlider,&QSlider::valueChanged, player,&QMediaPlayer::setVolume);
+    connect(volumeSlider, &QSlider::sliderMoved, player, &QMediaPlayer::setVolume);
 
     connect(player, &QMediaPlayer::durationChanged, slider, &QSlider::setMaximum); //Connecting player
     connect(player, &QMediaPlayer::positionChanged, slider, &QSlider::setValue);   //with
@@ -148,9 +151,18 @@ void MainWindow::on_actionfastForwardAction_triggered()
 
 void MainWindow::actionVolume_triggered()
 {
-    player->setVolume(0);
-    volumeSlider->setValue(0);
-    actionVolume->setIcon(QIcon(":/icons/icons/volume_mute.png"));
+    if(player->volume() > 0)
+    {
+        previousVolume = player->volume();
+        player->setVolume(0);
+        volumeSlider->setValue(0);
+    }
+    else if(player->volume() <= 0)
+    {
+        player->setVolume(previousVolume);
+        volumeSlider->setValue(previousVolume);
+    }
+    volumeSliderMoved();
 }
 
 void MainWindow::actionFullScreen_triggered()

@@ -76,6 +76,7 @@ private:
     QTimer *timer;
     QLabel *videoTime;
     QLabel *videoTimeLeft;
+    qint32 previousVolume;
 
 public slots:
     void change_effects();

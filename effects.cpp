@@ -21,7 +21,8 @@ void Effects::on_applyButton_clicked()
 
 void Effects::on_okButton_clicked()
 {
-
+    emit effectSignal();
+    this->close();
 }
 
 void Effects::on_brightnessSlider_sliderMoved(int position)
