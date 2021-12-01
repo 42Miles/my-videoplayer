@@ -1,23 +1,22 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     player = new QMediaPlayer(this);
     vw = new QVideoWidget(this);
     player->setVideoOutput(vw);
     this->setCentralWidget(vw);
-
     actionVolume = new QAction(this);
     actionVolume->setIcon(QIcon(":/icons/icons/volume.png"));
     connect(actionVolume, &QAction::triggered, [this]()
     {
         actionVolume_triggered();
-    });
+        });
 
     player->setVolume(50);
 
@@ -56,21 +55,27 @@ MainWindow::MainWindow(QWidget *parent)
         actionFullScreen_triggered();
     });
 
+    videoSpeed = new QComboBox(this);
+    QStringList speed {"0.25", "0.50", "0.75", "1.00", "1.25", "1.50", "2.00"};
+    videoSpeed->addItems(speed);
+
     ui->mainToolBar->addWidget(videoTime);
     ui->mainToolBar->addWidget(slider); //adding a slider to the statusbar
     ui->mainToolBar->addWidget(videoTimeLeft);
     ui->mainToolBar->addAction(actionVolume);
     ui->mainToolBar->addWidget(volumeSlider); //adding a volume to the statusbar
     ui->mainToolBar->addAction(actionFullScreen);
+    ui->mainToolBar->addWidget(videoSpeed);
 
-    connect(player, &QMediaPlayer::volumeChanged, volumeSlider, &QSlider::setValue);
-    //connect(volumeSlider,&QSlider::valueChanged, player,&QMediaPlayer::setVolume);
-    connect(volumeSlider, &QSlider::sliderMoved, player, &QMediaPlayer::setVolume);
+    //connect(player, &QMediaPlayer::volumeChanged, volumeSlider, &QSlider::setValue);
+    connect(volumeSlider,&QSlider::valueChanged, player,&QMediaPlayer::setVolume);
+    //connect(volumeSlider, &QSlider::sliderMoved, player, &QMediaPlayer::setVolume);
 
     connect(player, &QMediaPlayer::durationChanged, slider, &QSlider::setMaximum); //Connecting player
     connect(player, &QMediaPlayer::positionChanged, slider, &QSlider::setValue);   //with
     connect(slider, &QSlider::sliderMoved, player, &QMediaPlayer::setPosition);    //slider
 
+    slider->setValue(slider->value() * 2);
     QString filename = QFileDialog::getOpenFileName(this, "Open a File", "", "Video File(*.avi, *.mpg, *.mp4)"); //adding a filter for the source files
     on_actionStop_triggered();
     player->setMedia(QUrl::fromLocalFile(filename)); //setting media files
@@ -167,7 +172,19 @@ void MainWindow::actionVolume_triggered()
 
 void MainWindow::actionFullScreen_triggered()
 {
-    vw->setFullScreen(true);
+    if(!fullscreen)
+    {
+    vw->setWindowFlags(Qt::Window);
+    vw->showFullScreen();
+    fullscreen = false;
+    }
+    else if(fullscreen)
+    {
+    vw->setWindowFlags(Qt::Widget);
+    vw->showNormal();
+    fullscreen = true;
+    }
+    //vw->setS
 }
 
 void MainWindow::timer_alarm()
@@ -196,9 +213,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Space)
         on_actionPlayPause_triggered();
-    else if(event->key() == Qt::Key_Escape)
+    if(event->key() == Qt::Key_Escape){
         vw->setFullScreen(false);
-
+        vw->showNormal();
+    }
 }
 
 void MainWindow::volumeSliderMoved()
@@ -210,3 +228,4 @@ void MainWindow::volumeSliderMoved()
  else if(volumeSlider->value() >= 50)
      actionVolume->setIcon(QIcon(":/icons/icons/volume.png"));
 }
+

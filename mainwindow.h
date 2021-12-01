@@ -14,9 +14,10 @@
 #include <QProgressBar>
 #include <QSlider>
 #include <QDebug>
-#include <QPixmap>
+//#include <QPixmap>
 #include <Qt>
 #include <QLabel>
+#include <QComboBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -71,12 +72,15 @@ private:
     QSlider *volumeSlider;
     Effects effects;
     bool playing = false;
+    bool fullscreen = false;
     QAction *actionVolume;
     QAction *actionFullScreen;
     QTimer *timer;
     QLabel *videoTime;
     QLabel *videoTimeLeft;
     qint32 previousVolume;
+    QComboBox *videoSpeed;
+
 
 public slots:
     void change_effects();
