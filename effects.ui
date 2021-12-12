@@ -47,7 +47,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="7" column="1">
-        <widget class="QLCDNumber" name="lcdNumber_4"/>
+        <widget class="QLCDNumber" name="saturation_value"/>
        </item>
        <item row="3" column="0">
         <widget class="QLabel" name="Contrast">
@@ -70,7 +70,7 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QLCDNumber" name="lcdNumber_2"/>
+        <widget class="QLCDNumber" name="contrast_value"/>
        </item>
        <item row="3" column="2">
         <widget class="QSlider" name="contrastSlider">
@@ -106,7 +106,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLCDNumber" name="lcdNumber"/>
+        <widget class="QLCDNumber" name="brightness_value"/>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="Brightness">
@@ -116,7 +116,7 @@
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QLCDNumber" name="lcdNumber_3"/>
+        <widget class="QLCDNumber" name="hue_value"/>
        </item>
        <item row="5" column="0">
         <widget class="QLabel" name="Hue">

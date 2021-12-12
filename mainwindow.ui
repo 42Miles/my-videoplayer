@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>908</width>
-    <height>649</height>
+    <width>809</width>
+    <height>526</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>809</width>
+    <height>526</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -25,7 +31,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>908</width>
+     <width>809</width>
      <height>24</height>
     </rect>
    </property>
@@ -41,6 +47,8 @@
     </property>
     <addaction name="actionPlayPause"/>
     <addaction name="actionStop"/>
+    <addaction name="actionfastForwardAction"/>
+    <addaction name="actionrewindAction"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -87,7 +95,7 @@
      <normaloff>:/icons/icons/noun_pause_64198.png</normaloff>:/icons/icons/noun_pause_64198.png</iconset>
    </property>
    <property name="text">
-    <string>Play</string>
+    <string>Play/Pause</string>
    </property>
    <property name="autoRepeat">
     <bool>true</bool>
@@ -118,6 +126,10 @@
    </property>
   </action>
   <action name="actionEffects">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/icons/sliders_icon-icons.com_69903.png</normaloff>:/icons/icons/sliders_icon-icons.com_69903.png</iconset>
+   </property>
    <property name="text">
     <string>Effects</string>
    </property>
@@ -128,7 +140,7 @@
      <normaloff>:/icons/icons/noun_fast forward_64201.png</normaloff>:/icons/icons/noun_fast forward_64201.png</iconset>
    </property>
    <property name="text">
-    <string>fastForwardAction</string>
+    <string>+ 10 sec</string>
    </property>
   </action>
   <action name="actionrewindAction">
@@ -137,7 +149,7 @@
      <normaloff>:/icons/icons/noun_rewind_64202.png</normaloff>:/icons/icons/noun_rewind_64202.png</iconset>
    </property>
    <property name="text">
-    <string>rewindAction</string>
+    <string>- 10 sec</string>
    </property>
   </action>
  </widget>

@@ -40,7 +40,6 @@ MainWindow::MainWindow(QWidget *parent)
     slider->setFocusPolicy(Qt::NoFocus); 
 
     videoTime = new QLabel(this);
-
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &MainWindow::timer_alarm);
     timer->start(1000);
@@ -55,50 +54,61 @@ MainWindow::MainWindow(QWidget *parent)
         actionFullScreen_triggered();
     });
 
-    videoSpeed = new QComboBox(this);
-    QStringList speed {"0.25", "0.50", "0.75", "1.00", "1.25", "1.50", "2.00"};
-    videoSpeed->addItems(speed);
-
     ui->mainToolBar->addWidget(videoTime);
-    ui->mainToolBar->addWidget(slider); //adding a slider to the statusbar
+    ui->mainToolBar->addWidget(slider);
     ui->mainToolBar->addWidget(videoTimeLeft);
     ui->mainToolBar->addAction(actionVolume);
-    ui->mainToolBar->addWidget(volumeSlider); //adding a volume to the statusbar
+    ui->mainToolBar->addWidget(volumeSlider);
     ui->mainToolBar->addAction(actionFullScreen);
-    ui->mainToolBar->addWidget(videoSpeed);
 
-    //connect(player, &QMediaPlayer::volumeChanged, volumeSlider, &QSlider::setValue);
     connect(volumeSlider,&QSlider::valueChanged, player,&QMediaPlayer::setVolume);
-    //connect(volumeSlider, &QSlider::sliderMoved, player, &QMediaPlayer::setVolume);
 
     connect(player, &QMediaPlayer::durationChanged, slider, &QSlider::setMaximum); //Connecting player
     connect(player, &QMediaPlayer::positionChanged, slider, &QSlider::setValue);   //with
     connect(slider, &QSlider::sliderMoved, player, &QMediaPlayer::setPosition);    //slider
 
-    slider->setValue(slider->value() * 2);
     QString filename = QFileDialog::getOpenFileName(this, "Open a File", "", "Video File(*.avi, *.mpg, *.mp4)"); //adding a filter for the source files
-    on_actionStop_triggered();
     player->setMedia(QUrl::fromLocalFile(filename)); //setting media files
     on_actionPlayPause_triggered();
 
-    this->setWindowTitle(filename.leftJustified(filename.indexOf('/'), '.', true));
+    this->setWindowTitle("My-videoplayer");
 
-    if(filename.isNull()){
+    if(filename.isNull())
         exit(EXIT_FAILURE);
-    }
 }
 
 MainWindow::~MainWindow()
 {
+    delete videoTime;
+    delete slider;
+    delete videoTimeLeft;
+    delete actionVolume;
+    delete volumeSlider;
+    delete actionFullScreen;
+    delete timer;
     delete ui;
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
     QString filename = QFileDialog::getOpenFileName(this, "Open a File", "", "Video File(*.avi, *.mpg, *.mp4)"); //adding a filter for the source files
-    on_actionStop_triggered();
-    player->setMedia(QUrl::fromLocalFile(filename)); //setting media files
     on_actionPlayPause_triggered();
+    if(!filename.isNull()){
+    player->setMedia(QUrl::fromLocalFile(filename)); //setting media files
+    }
+    on_actionPlayPause_triggered();
+}
+
+void MainWindow::play_video()
+{
+    player->play();
+    ui->actionPlayPause->setIcon(QIcon(":/icons/icons/noun_pause_64198.png"));
+}
+
+void MainWindow::pause_video()
+{
+    player->pause();
+    ui->actionPlayPause->setIcon(QIcon(":/icons/icons/noun_play_64196.png"));
 }
 
 void MainWindow::on_actionPlayPause_triggered() //Play
@@ -131,19 +141,6 @@ void MainWindow::change_effects()
     vw->setSaturation(effects.saturation);
 }
 
-void MainWindow::play_video()
-{
-    player->play();
-    ui->actionPlayPause->setIcon(QIcon(":/icons/icons/noun_pause_64198.png"));
-}
-
-void MainWindow::pause_video()
-{
-    player->pause();
-    ui->actionPlayPause->setIcon(QIcon(":/icons/icons/noun_play_64196.png"));
-
-}
-
 void MainWindow::on_actionrewindAction_triggered()
 {
     player->setPosition(player->position() - 10000);
@@ -170,55 +167,6 @@ void MainWindow::actionVolume_triggered()
     volumeSliderMoved();
 }
 
-void MainWindow::actionFullScreen_triggered()
-{
-    if(!fullscreen)
-    {
-    vw->setWindowFlags(Qt::Window);
-    vw->showFullScreen();
-    fullscreen = false;
-    }
-    else if(fullscreen)
-    {
-    vw->setWindowFlags(Qt::Widget);
-    vw->showNormal();
-    fullscreen = true;
-    }
-    //vw->setS
-}
-
-void MainWindow::timer_alarm()
-{
-    qint64 position = player->position();
-    int seconds = (position/1000) % 60;
-    int minutes = (position/60000) % 60;
-    int hours = (position/3600000) % 24;
-
-    QTime time(hours, minutes,seconds);
-    videoTime->setText(time.toString());
-}
-
-void MainWindow::time_left()
-{
-    qint64 timeleft = player->duration() - player->position();
-    int seconds = (timeleft/1000) % 60;
-    int minutes = (timeleft/60000) % 60;
-    int hours = (timeleft/3600000) % 24;
-
-    QTime time(hours, minutes,seconds);
-    videoTimeLeft->setText(time.toString());
-}
-
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-    if(event->key() == Qt::Key_Space)
-        on_actionPlayPause_triggered();
-    if(event->key() == Qt::Key_Escape){
-        vw->setFullScreen(false);
-        vw->showNormal();
-    }
-}
-
 void MainWindow::volumeSliderMoved()
 {
  if(volumeSlider->value() <= 0)
@@ -229,3 +177,44 @@ void MainWindow::volumeSliderMoved()
      actionVolume->setIcon(QIcon(":/icons/icons/volume.png"));
 }
 
+void MainWindow::actionFullScreen_triggered()
+{
+    if(!fullscreen)
+    {
+    this->setWindowState(Qt::WindowMaximized);
+    fullscreen = true;
+    }
+    else if(fullscreen)
+    {
+    this->setWindowState(Qt::WindowMinimized);
+    fullscreen = false;
+    }
+}
+
+void MainWindow::timer_alarm()
+{
+    qint64 position = player->position();
+    int seconds = (position/1000) % 60;
+    int minutes = (position/60000) % 60;
+    int hours = (position/3600000) % 24;
+
+    QTime time(hours, minutes, seconds);
+    videoTime->setText(time.toString());
+}
+
+void MainWindow::time_left()
+{
+    qint64 timeleft = player->duration() - player->position();
+    int seconds = (timeleft/1000) % 60;
+    int minutes = (timeleft/60000) % 60;
+    int hours = (timeleft/3600000) % 24;
+
+    QTime time(hours, minutes, seconds);
+    videoTimeLeft->setText(time.toString());
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_Space)
+        on_actionPlayPause_triggered();
+}

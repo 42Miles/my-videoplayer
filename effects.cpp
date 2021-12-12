@@ -13,41 +13,39 @@ Effects::~Effects()
     delete ui;
 }
 
-void Effects::on_applyButton_clicked()
-{
-    emit effectSignal();
-}
-
-
-void Effects::on_okButton_clicked()
-{
-    emit effectSignal();
-    this->close();
-}
-
 void Effects::on_brightnessSlider_sliderMoved(int position)
 {
-    ui->lcdNumber->display(position);
+    ui->brightness_value->display(position);
     brightness = position;
 }
 
 void Effects::on_contrastSlider_sliderMoved(int position)
 {
-    ui->lcdNumber_2->display(position);
+    ui->contrast_value->display(position);
     contrast = position;
 }
 
 
 void Effects::on_hueSlider_sliderMoved(int position)
 {
-    ui->lcdNumber_3->display(position);
+    ui->hue_value->display(position);
     hue = position;
 }
 
 
 void Effects::on_saturationSlider_sliderMoved(int position)
 {
-    ui->lcdNumber_4->display(position);
+    ui->saturation_value->display(position);
     saturation = position;
 }
 
+void Effects::on_applyButton_clicked()
+{
+    emit effectSignal();
+}
+
+void Effects::on_okButton_clicked()
+{
+    emit effectSignal();
+    this->close();
+}

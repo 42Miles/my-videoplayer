@@ -1,19 +1,7 @@
 #ifndef EFFECTS_H
 #define EFFECTS_H
 
-#include <QWidget>
-#include <QFrame>
-#include <QVideoWidgetControl>
-#include <QMainWindow>
-#include <QMediaPlayer>
-#include <QtMultimedia>
-#include <QVideoWidget>
 #include <QFileDialog>
-#include <QProgressBar>
-#include <QSlider>
-#include <QDebug>
-#include <QPixmap>
-#include <Qt>
 
 namespace Ui {
 class Effects;
@@ -48,7 +36,6 @@ private slots:
 
 private:
     Ui::Effects *ui;
-
 
 signals:
     void effectSignal();

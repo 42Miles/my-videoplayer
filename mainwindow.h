@@ -2,22 +2,14 @@
 #define MAINWINDOW_H
 
 #include "effects.h"
-#include <QVideoWidgetControl>
 #include <QWidget>
-#include <QFrame>
-#include <QVideoWidgetControl>
 #include <QMainWindow>
 #include <QMediaPlayer>
 #include <QtMultimedia>
 #include <QVideoWidget>
-#include <QFileDialog>
-#include <QProgressBar>
 #include <QSlider>
-#include <QDebug>
-//#include <QPixmap>
 #include <Qt>
 #include <QLabel>
-#include <QComboBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -63,11 +55,11 @@ private slots:
 
     void volumeSliderMoved();
 
+
 private:
     Ui::MainWindow *ui;
     QMediaPlayer *player;
     QVideoWidget *vw;
-    QProgressBar *bar;
     QSlider *slider;
     QSlider *volumeSlider;
     Effects effects;
@@ -79,8 +71,6 @@ private:
     QLabel *videoTime;
     QLabel *videoTimeLeft;
     qint32 previousVolume;
-    QComboBox *videoSpeed;
-
 
 public slots:
     void change_effects();
